@@ -1,34 +1,33 @@
 // Docs on event and context https://www.netlify.com/docs/functions/#the-handler-method
-
 const faunadb = require('faunadb'),
   q = faunadb.query;
 
 exports.handler = async (event, context) => {
   try {
-
-    // Only allow POST
-    // if (event.httpMethod !== "post") {
-    //   return { statusCode: 405, body: "Method Not Allowed" };
-    // }
-
     var client = new faunadb.Client({ secret: process.env.FAUNADB_ADMIN_SECRET });
-
     var result = await client.query(
-        q.Map(
-            q.Paginate(q.Match(q.Index('TasksIndex'))),
-            q.Lambda(x => q.Get(x))
+      q.Map(
+        // iterate each item in result
+        q.Paginate(
+          // make paginatable
+          q.Match(
+            // query index
+            q.Index('TasksIndex') // specify source
           )
+        ),
+        (ref) => q.Get(ref) // lookup each result by its reference
+      )
     );
+    console.log("Document retrived from Container in Database: " + JSON.stringify(result.data));
 
-    console.log(" Data recieved from the data base " + result);
+    // ok
     return {
       statusCode: 200,
-      body: JSON.stringify({ id: `${result.ref.id}` }),
-      // // more keys you can return:
-      // headers: { "headerName": "headerValue", ... },
-      // isBase64Encoded: true,
+      body: JSON.stringify(result.data),
+
     }
-  } catch (err) {
-    return { statusCode: 500, body: err.toString() }
+  } catch (error) {
+    console.log('Error: ');
+    console.log(error);
   }
 }

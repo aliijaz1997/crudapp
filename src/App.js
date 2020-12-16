@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Formik, Form, ErrorMessage, Field } from 'formik';
 import TextField from '@material-ui/core/TextField';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -6,9 +6,9 @@ import Container from '@material-ui/core/Container';
 
 export default function Home() {
   const [mydata, setData] = useState([]);
-  console.log(mydata);
+  const [updatedevent, setUpdatedevent] = useState();
   useEffect(() => {
-    ; (async () => {
+       (async () => {
       // setIsloading(true);
       console.log("fetch called")
       await fetch("/.netlify/functions/read")
@@ -19,8 +19,10 @@ export default function Home() {
       // setIsloading(false)
 
     })()
-  }, [])
+  }, [updatedevent])
+  console.log(mydata);
   return (
+    <>
     <React.Fragment>
       <CssBaseline />
       <Container maxWidth="sm">
@@ -37,7 +39,7 @@ export default function Home() {
               .then(response => response.json())
               .then(data => {
                 console.log("Data: " + JSON.stringify(data));
-                setData(data);
+                setUpdatedevent(data);
               });
           }}  >
           {
@@ -61,7 +63,16 @@ export default function Home() {
             )
           }
         </Formik>
+        {
+          mydata?.map((d) => <div key={d.ref["@ref"].id} className="single-data">
+            <div className="heading">
+              <h2>
+                {d.data.name}
+              </h2>
+            </div>
+          </div>
+          )}
       </Container>
     </React.Fragment>
-  )
-}
+    </>
+  )}
