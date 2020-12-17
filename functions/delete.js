@@ -6,18 +6,13 @@ exports.handler = async (event, context) => {
   // console.log(event.body)
   try {
     var client = new faunadb.Client({ secret: process.env.FAUNADB_ADMIN_SECRET });
-    var reqobj = JSON.parse(event.body)
-    console.log(reqobj, "task")
+    var id = JSON.parse(event.body)
+    console.log(id, "task")
     var result = await client.query(
-      q.Update(q.Ref(q.Collection('TasksTodo'), reqobj.id), {
-        data: {
-          name : reqobj.title, age : reqobj.description
-        },
-      })
-    );
+      q.Delete(q.Ref(q.Collection('TasksTodo'), id)));
     return {
       statusCode: 200,
-      body: JSON.stringify({id : `${result.ref.id}`}),
+      body: JSON.stringify(result),
     }
   } catch (e) {
     console.log('Error: ');
