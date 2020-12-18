@@ -7,23 +7,17 @@ exports.handler = async (event, context) => {
     var client = new faunadb.Client({ secret: process.env.FAUNADB_ADMIN_SECRET });
     var result = await client.query(
       q.Map(
-        // iterate each item in result
-        q.Paginate(
-          // make paginatable
-          q.Match(
-            // query index
-            q.Index('TasksIndex') // specify source
-          )
-        ),
-        (ref) => q.Get(ref) // lookup each result by its reference
+        q.Paginate(q.Match(q.Index("TasksIndex"))),
+        q.Lambda("x", q.Get(q.Var("x")))
       )
+   
     );
     console.log("Document retrived from Container in Database: " + JSON.stringify(result.data));
 
     // ok
     return {
       statusCode: 200,
-      body: JSON.stringify(result),
+      body: JSON.stringify(result.data),
 
     }
   } catch (error) {
