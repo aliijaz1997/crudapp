@@ -3,7 +3,6 @@ const faunadb = require('faunadb'),
   q = faunadb.query;
   require("dotenv").config()
 exports.handler = async (event, context) => {
-  // console.log(event.body)
   try {
 
     // Only allow POST

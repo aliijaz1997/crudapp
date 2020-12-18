@@ -12,9 +12,6 @@ exports.handler = async (event, context) => {
       )
    
     );
-    console.log("Document retrived from Container in Database: " + JSON.stringify(result.data));
-
-    // ok
     return {
       statusCode: 200,
       body: JSON.stringify(result.data),

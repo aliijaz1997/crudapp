@@ -28,11 +28,9 @@ export default function Home() {
   const classes = useStyles();
 
   //.....................//
-  // console.log(updateData.ref["@ref"].id);
   // Using UseEffect to call all the tasks from database asynchronously.
   useEffect(() => {
     (async () => {
-      // setIsloading(true);
       console.log("fetch called")
       await fetch("/.netlify/functions/read")
         .then(res => res.json())
@@ -40,7 +38,6 @@ export default function Home() {
           console.log(data)
           setData(data);
         })
-      // setIsloading(false)
 
     })()
   }, [updatedevent, isUpdating])

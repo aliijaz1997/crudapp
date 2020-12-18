@@ -22,7 +22,6 @@ exports.handler = async (event, context) => {
       )
     );
     
-    console.log("Entry Created and Inserted in Container: " + result.ref.id);
    
     
     return {
