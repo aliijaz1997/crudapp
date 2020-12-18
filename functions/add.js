@@ -7,9 +7,9 @@ exports.handler = async (event, context) => {
   try {
 
     // Only allow POST
-    // if (event.httpMethod !== "post") {
-    //   return { statusCode: 405, body: "Method Not Allowed" };
-    // }
+    if (event.httpMethod !== "post") {
+      return { statusCode: 405, body: "Method Not Allowed" };
+    }
 
     let reqObj =  JSON.parse(event.body);
 

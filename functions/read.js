@@ -1,7 +1,7 @@
 // Docs on event and context https://www.netlify.com/docs/functions/#the-handler-method
 const faunadb = require('faunadb'),
   q = faunadb.query;
-
+  require("dotenv").config()
 exports.handler = async (event, context) => {
   try {
     var client = new faunadb.Client({ secret: process.env.FAUNADB_ADMIN_SECRET });
