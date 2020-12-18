@@ -31,7 +31,6 @@ export default function Home() {
   // Using UseEffect to call all the tasks from database asynchronously.
   useEffect(() => {
     (async () => {
-      console.log("fetch called")
       await fetch("/.netlify/functions/read")
         .then(res => res.json())
         .then(data => {
