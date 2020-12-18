@@ -37,6 +37,7 @@ export default function Home() {
       await fetch("/.netlify/functions/read")
         .then(res => res.json())
         .then(data => {
+          console.log(data)
           setData(data);
         })
       // setIsloading(false)
